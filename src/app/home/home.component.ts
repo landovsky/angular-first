@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter} from '@angular/core';
 import {PRODUCTS} from '../products';
 import {Product} from '../product';
 import {ProductDetailComponent} from '../product-detail/product-detail.component';
@@ -15,14 +15,13 @@ import {Cart} from '../cart';
 export class HomeComponent {
   constructor(private modalService: NgbModal, private storage: StorageService) { }
 
-  title = 'Techloop Merchandise';
   products: object[] = PRODUCTS;
   localStorage = this.storage;
-  cart: Subscription = this.storage.cart$.subscribe(cart => this.updateCart(cart));
-  cartState;
+  cart$: Subscription = this.storage.cart$.subscribe(cart => this.updateCart(cart));
+  cart: Cart;
 
-  updateCart(cart) {
-    this.cartState = cart;
+  updateCart(cart: Cart) {
+    this.cart = cart;
   }
 
   handleClick(product: Product) {
