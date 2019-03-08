@@ -1,4 +1,4 @@
-import {EventEmitter, Injectable, Output, OnInit} from '@angular/core';
+import {EventEmitter, Injectable, Output} from '@angular/core';
 import {Product} from './product';
 import {Cart} from './cart';
 
@@ -6,14 +6,11 @@ import {Cart} from './cart';
   providedIn: 'root'
 })
 
-export class StorageService implements OnInit {
+export class StorageService {
   @Output() cart$: EventEmitter<Cart> = new EventEmitter();
+  @Output() emptyCart: Cart = { products: [], price: 0 };
 
-  cartState: Cart = { products: [], price: 0 };
-
-  ngOnInit() {
-    this.cart$.emit(this.cartState);
-  }
+  cartState: Cart = this.emptyCart;
 
   constructor() { }
 

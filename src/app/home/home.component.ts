@@ -1,4 +1,4 @@
-import {Component, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, OnInit} from '@angular/core';
 import {PRODUCTS} from '../products';
 import {Product} from '../product';
 import {ProductDetailComponent} from '../product-detail/product-detail.component';
@@ -12,13 +12,21 @@ import {Cart} from '../cart';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements  OnInit {
   constructor(private modalService: NgbModal, private storage: StorageService) { }
 
   products: object[] = PRODUCTS;
   localStorage = this.storage;
   cart$: Subscription = this.storage.cart$.subscribe(cart => this.updateCart(cart));
   cart: Cart;
+
+  ngOnInit(): void {
+    this.initCart();
+  }
+
+  initCart() {
+    this.cart = this.localStorage.emptyCart;
+  }
 
   updateCart(cart: Cart) {
     this.cart = cart;
