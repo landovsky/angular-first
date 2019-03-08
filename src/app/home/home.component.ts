@@ -1,10 +1,11 @@
-import {Component, EventEmitter, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {PRODUCTS} from '../products';
 import {Product} from '../product';
 import {ProductDetailComponent} from '../product-detail/product-detail.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {StorageService} from '../storage.service';
-import {Observable} from 'rxjs';
+import {Subscription} from 'rxjs';
+import {Cart} from '../cart';
 
 @Component({
   selector: 'app-home',
@@ -16,8 +17,13 @@ export class HomeComponent {
 
   title = 'Techloop Merchandise';
   products: object[] = PRODUCTS;
-  cart: EventEmitter<Product[]> = this.storage.cart;
-  data = this.storage;
+  localStorage = this.storage;
+  cart: Subscription = this.storage.cart$.subscribe(cart => this.updateCart(cart));
+  cartState;
+
+  updateCart(cart) {
+    this.cartState = cart;
+  }
 
   handleClick(product: Product) {
     const modalRef = this.modalService.open(ProductDetailComponent);
@@ -25,6 +31,6 @@ export class HomeComponent {
   }
 
   handleAddToCart(product: Product) {
-    this.data.addToCart(product);
+    this.localStorage.addToCart(product);
   }
 }
