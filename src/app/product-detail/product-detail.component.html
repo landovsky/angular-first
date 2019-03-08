@@ -1,0 +1,15 @@
+<div class="modal-header">
+  <h4 id="modal-basic-title" class="modal-title">{{product.name}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p>Sizes</p>
+  {{product.sizes | json}}
+  <p>Price</p>
+  {{product.price | json}}
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Close</button>
+</div>
