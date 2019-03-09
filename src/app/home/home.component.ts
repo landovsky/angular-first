@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PRODUCTS} from '../products';
 import {Product} from '../product';
 import {ProductDetailComponent} from '../product-detail/product-detail.component';
@@ -16,7 +16,6 @@ export class HomeComponent implements  OnInit {
   constructor(private modalService: NgbModal, private storage: StorageService) { }
 
   products: object[] = PRODUCTS;
-  localStorage = this.storage;
   cart$: Subscription = this.storage.cart$.subscribe(cart => this.updateCart(cart));
   cart: Cart;
 
@@ -25,7 +24,7 @@ export class HomeComponent implements  OnInit {
   }
 
   initCart() {
-    this.cart = this.localStorage.emptyCart;
+    this.cart = this.storage.emptyCart;
   }
 
   updateCart(cart: Cart) {
@@ -38,6 +37,6 @@ export class HomeComponent implements  OnInit {
   }
 
   handleAddToCart(product: Product) {
-    this.localStorage.addToCart(product);
+    this.storage.addToCart(product);
   }
 }
