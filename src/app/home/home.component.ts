@@ -12,24 +12,13 @@ import {Cart} from '../cart';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements  OnInit {
-  constructor(private modalService: NgbModal, private storage: StorageService) { }
+export class HomeComponent {
+  constructor(private modalService: NgbModal, public storage: StorageService) { }
 
-  products: object[] = PRODUCTS;
-  cart$: Subscription = this.storage.cart$.subscribe(cart => this.updateCart(cart));
-  cart: Cart;
+  // get getCart()
 
-  ngOnInit(): void {
-    this.initCart();
-  }
-
-  initCart() {
-    this.cart = this.storage.emptyCart;
-  }
-
-  updateCart(cart: Cart) {
-    this.cart = cart;
-  }
+  products: Product[] = PRODUCTS;
+  cart$ = this.storage.cart$;
 
   handleClick(product: Product) {
     const modalRef = this.modalService.open(ProductDetailComponent);

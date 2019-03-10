@@ -1,0 +1,5 @@
+<div>
+  <h5>Products</h5>
+  <p *ngFor="let product of cart.products">{{product.name}}: {{product.price}}</p>
+</div>
+<button class="btn btn-light" (click)="handleClearCart()">Pay</button>

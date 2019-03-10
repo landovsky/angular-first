@@ -1,30 +1,49 @@
-import {EventEmitter, Injectable, Output} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {Product} from './product';
 import {Cart} from './cart';
+import {PRODUCTS} from './products';
+import {ReplaySubject, Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class StorageService {
-  @Output() cart$: EventEmitter<Cart> = new EventEmitter();
-  @Output() emptyCart: Cart = { products: [], price: 0 };
+  cart$: ReplaySubject<Cart> = new ReplaySubject();
+  cartState: Cart;
 
-  cartState: Cart = this.emptyCart;
+  constructor() {
+    this.initCart();
+  }
 
-  constructor() { }
+  // get products(): Product[] {
+  //
+  // }
+
+  initCart() {
+    this.cartState = { products: [], total: 0 };
+    this.updateCart();
+  }
 
   addToCart(product: Product) {
     this.cartState.products.push(product);
+    this.recalculateCart();
+  }
+
+  // make immutable
+  recalculateCart() {
+    this.cartState.total = this.cartState.products.map(product => product.price)
+      .reduce((total, num) => total + num);
     this.updateCart();
   }
 
   updateCart() {
-    this.cart$.emit(this.cartState);
+    this.cart$.next(this.cartState);
   }
 
   clearCart() {
-    this.cartState = { products: [], price: 0 };
+    this.initCart();
     this.updateCart();
+    console.log('cart cleared');
   }
 }

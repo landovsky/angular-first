@@ -1,9 +1,7 @@
-<div class="clearfix">
-  <h3 class="float-left">Techloop Merchandise</h3>
-  <button class="btn btn-danger float-right" (click)="storage.clearCart()">Products in cart: {{cart.products.length}}</button>
-</div>
-
 <div class="row">
-  <app-product-card *ngFor="let product of products" [product]=product (clickTitle)="handleClick($event)" (clickAddToCart)="handleAddToCart($event)"></app-product-card>
+  <app-product-card *ngFor="let product of products"
+                    [product]=product
+                    (clickTitle)="handleClick($event)"
+                    (clickAddToCart)="handleAddToCart($event)">
+  </app-product-card>
 </div>
-
